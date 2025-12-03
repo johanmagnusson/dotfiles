@@ -6,3 +6,8 @@
 
 -- Show null as `(null)` over ``
 \pset null '(null)'
+
+-- Set application_name for logging purposes
+\if :{?APP_NAME}
+  SELECT set_config('application_name', :'APP_NAME', false);
+\endif
