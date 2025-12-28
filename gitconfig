@@ -9,7 +9,7 @@
 	autoSetupMerge = always
 	whitespace = trailing-space
 [core]
-	editor = nano
+	editor = vim
 [rebase]
 	stat = true
 [pager]
