@@ -1,1 +1,41 @@
 add_newline = true
+
+# Custom format to match the original prompt layout
+format = """
+[](fg:bright-black)\
+$directory\
+$git_branch\
+$git_status\
+[](fg:bright-black)\
+$line_break\
+$character"""
+
+[directory]
+format = "[$path]($style)"
+style = "fg:bright-black"
+truncation_length = 100
+truncate_to_repo = false
+repo_root_style = "bold fg:bright-black"
+repo_root_format = "[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)"
+
+[git_branch]
+format = "[ ($branch)]($style)"
+style = "fg:bright-black"
+
+[git_status]
+format = "([$all_status$ahead_behind]($style))"
+style = "fg:bright-black"
+modified = "*"
+staged = "*"
+untracked = ""
+renamed = ""
+deleted = ""
+stashed = ""
+diverged = ""
+conflicted = ""
+ahead = ""
+behind = ""
+
+[character]
+success_symbol = "[%](fg:bright-black)"
+error_symbol = "[%](fg:red)"
