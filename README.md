@@ -10,6 +10,12 @@ Install `rcm` if not already available. For macOS:
 % brew install rcm
 ```
 
+Install [starship](https://starship.rs/) for prompt managment.
+
+```shell
+% brew install starship
+```
+
 Clone repo:
 
 ```shell
