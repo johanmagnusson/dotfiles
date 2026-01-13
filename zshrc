@@ -3,7 +3,6 @@ ZCONFIG="$HOME/.dotfiles/zsh"
 
 # Core components
 source "$ZCONFIG/aliases.zsh"
-source "$ZCONFIG/prompt.zsh"
 source "$ZCONFIG/completions.zsh"
 
 # Load tool-specific configs

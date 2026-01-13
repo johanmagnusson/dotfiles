@@ -1,3 +1,7 @@
+#
+# NOTE: Currently deprecated in favor of starship
+#
+
 prompt_dir() {
   # Check for git repo
   local git_root=$(git rev-parse --show-toplevel 2>/dev/null)
