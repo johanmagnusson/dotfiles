@@ -19,7 +19,7 @@ repo_root_style = "bold fg:bright-black"
 repo_root_format = "[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)"
 
 [git_branch]
-format = "[ ($branch)]($style)"
+format = " [\\($branch\\)]($style)"
 style = "fg:bright-black"
 
 [git_status]
