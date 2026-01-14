@@ -1,1 +1,1 @@
-EXCLUDES="zsh README.md"
+EXCLUDES="zsh README.md CLAUDE.md"
