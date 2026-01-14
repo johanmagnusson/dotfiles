@@ -5,7 +5,7 @@ description: Tests code using best-practices. Use when adding new test files or 
 
 # Testing code
 
-General purpose rules and convetions that apply when writing and modifying tests.
+General purpose rules and conventions that apply when writing and modifying tests.
 
 ## Instructions
 
@@ -14,7 +14,7 @@ Rely on a four-phase test approach where each phase is logically grouped togethe
 1. Setup, where all the required test data is setup.
 2. Execute, where the code that should be tested is invoked with the arguments to trigger the expected behavior.
 3. Verify, where the output of the tested code is verified through assertions.
-4. Teardown, where test data and output effectes are cleaned up.
+4. Teardown, where test data and output effects are cleaned up.
 
 When testing the output, aim for verifying the generated output over testing for side effects.
 

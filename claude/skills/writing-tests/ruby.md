@@ -27,7 +27,7 @@ RSpec.describe MyClass do
     thing = create(:thing)
 
     # Execute
-    result = described_class.do_something(thing)
+    result = described_class.new.do_something(thing)
 
     # Verify
     expect(result).to be_thing
