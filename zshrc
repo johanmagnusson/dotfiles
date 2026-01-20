@@ -4,6 +4,7 @@ ZCONFIG="$HOME/.dotfiles/zsh"
 # Core components
 source "$ZCONFIG/aliases.zsh"
 source "$ZCONFIG/completions.zsh"
+source "$ZCONFIG/history.zsh"
 
 # Load tool-specific configs
 for config in $ZCONFIG/tools/*.zsh(N); do
