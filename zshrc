@@ -1,6 +1,10 @@
 # Identify where this file is located
 ZCONFIG="$HOME/.dotfiles/zsh"
 
+# Use emacs keybindings (Ctrl+A, Ctrl+E, etc.)
+# Must be explicit since EDITOR=vim triggers vi mode
+bindkey -e
+
 # Core components
 source "$ZCONFIG/aliases.zsh"
 source "$ZCONFIG/completions.zsh"
