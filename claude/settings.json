@@ -35,6 +35,17 @@
       "Bash(uniq:*)",
       "Bash(wc:*)",
       "Bash(which:*)"
+    ],
+    "ask": [
+      "Bash(brew install:*)",
+      "Bash(gem install:*)",
+      "Bash(gh pr create:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(mv:*)",
+      "Bash(rm:*)"
     ]
   },
   "spinnerTipsEnabled": false,
