@@ -10,3 +10,6 @@ source "$ZCONFIG/history.zsh"
 for config in $ZCONFIG/tools/*.zsh(N); do
   source "$config"
 done
+
+# Path updates, overriding any tool specific config
+export PATH="$PATH:$HOME/.local/bin"
