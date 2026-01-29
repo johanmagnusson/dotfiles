@@ -34,7 +34,8 @@
       "Bash(type:*)",
       "Bash(uniq:*)",
       "Bash(wc:*)",
-      "Bash(which:*)"
+      "Bash(which:*)",
+      "WebFetch(domain:claude.com)"
     ],
     "ask": [
       "Bash(brew install:*)",
