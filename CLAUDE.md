@@ -37,17 +37,3 @@ The shell initialization follows this sequence:
    - `zsh/completions.zsh` - ZSH completion system setup
    - `zsh/tools/*.zsh` - Tool-specific configurations (auto-loaded via glob pattern)
 
-### Tool Configurations
-
-Tool-specific configs in `zsh/tools/` handle initialization for:
-- **starship.zsh**: Prompt initialization
-- **homebrew.zsh**: Homebrew shellenv and PostgreSQL path setup
-- **nodenv.zsh**: Node version management
-- **rbenv.zsh**: Ruby version management with `.git/safe` binstub support
-- **sdkman.zsh**: SDK management
-- **gradle.zsh**: Gradle-specific configuration
-- **lang.zsh**: Language environment settings
-- **claude.zsh**: Claude-specific configuration
-- **menti.zsh**: Mentimeter-specific configuration
-- **tailscale.zsh**: Tailscale configuration
-
