@@ -27,6 +27,7 @@
       "Bash(git status:*)",
       "Bash(git tag:*)",
       "Bash(ls:*)",
+      "Bash(pbcopy:*)",
       "Bash(pwd:*)",
       "Bash(rake test:*)",
       "Bash(rspec:*)",
