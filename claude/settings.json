@@ -12,6 +12,7 @@
       "Bash(basename:*)",
       "Bash(bundle exec:*)",
       "Bash(date:*)",
+      "Bash(find:*)",
       "Bash(gh checks:*)",
       "Bash(gh issue view:*)",
       "Bash(gh pr view:*)",
