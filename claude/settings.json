@@ -27,6 +27,7 @@
       "Bash(git stash list:*)",
       "Bash(git status:*)",
       "Bash(git tag:*)",
+      "Bash(head:*)",
       "Bash(ls:*)",
       "Bash(pbcopy:*)",
       "Bash(pwd:*)",
@@ -37,6 +38,7 @@
       "Bash(uniq:*)",
       "Bash(wc:*)",
       "Bash(which:*)",
+      "Bash(xargs:*)",
       "WebFetch(domain:claude.com)"
     ],
     "ask": [
