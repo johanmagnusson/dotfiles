@@ -3,14 +3,20 @@
     "commit": "",
     "pr": ""
   },
-  "enabledPlugins": {
-    "rust-analyzer-lsp@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true
-  },
   "permissions": {
     "allow": [
       "Bash(basename:*)",
       "Bash(bundle exec:*)",
+      "Bash(cargo bench:*)",
+      "Bash(cargo build:*)",
+      "Bash(cargo check:*)",
+      "Bash(cargo clean:*)",
+      "Bash(cargo clippy:*)",
+      "Bash(cargo doc:*)",
+      "Bash(cargo fmt:*)",
+      "Bash(cargo metadata:*)",
+      "Bash(cargo test:*)",
+      "Bash(cargo tree:*)",
       "Bash(date:*)",
       "Bash(find:*)",
       "Bash(gh checks:*)",
@@ -53,9 +59,15 @@
       "Bash(rm:*)"
     ]
   },
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true
+  },
   "spinnerTipsEnabled": false,
   "spinnerVerbs": {
     "mode": "replace",
-    "verbs": ["Working"]
+    "verbs": [
+      "Working"
+    ]
   }
 }
