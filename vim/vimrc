@@ -24,7 +24,7 @@ syntax enable
 filetype plugin indent on
 
 " Sane default colorscheme
-colorscheme wildcharm
+colorscheme typographic
 
 " Enable the wildmenu and set the wildmode to full, which allows for
 " command-line completion with a menu of options.
