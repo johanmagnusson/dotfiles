@@ -1,0 +1,109 @@
+" Teo's observations what Johan would like in his vimrc, based on Johan's usage
+" and preferences.
+"
+" Have fun, and happy hacking!
+
+" Display the statusline always, even if there is only one window.
+set laststatus=2
+
+" Simple and sample statusline that shows the buffer number, file name,
+" modified status, and the current line and column. The file name is truncated
+" if it is too long to fit in the available space, and the line and column
+" information is displayed in the format (line,column) with the virtual column
+" if applicable. The percentage through the file is also displayed at the end
+" of the statusline.
+"
+" This is a slight modification of the default statusline, which is more
+" minimal and does not include the buffer number or the percentage through the
+" file.
+set statusline=[%n]\ %<%f\ %h%m%r%w%=%-14.(%l,%c%V%)\ %P
+
+" Enable syntax highlighting, filetype detection, and indentation based on
+" filetype.
+syntax enable
+filetype plugin indent on
+
+" Sane default colorscheme
+colorscheme wildcharm
+
+" Enable the wildmenu and set the wildmode to full, which allows for
+" command-line completion with a menu of options.
+set wildmenu
+set wildmode=full
+
+" Create undo, swap, and backup directories in the user's cache directory if
+" they do not exist.
+if exists('+undodir') && !has('nvim')
+  let s:data_home = expand('~/.cache/vim/')
+
+  let &undodir = s:data_home . 'undo//'
+  let &directory = s:data_home . 'swap//'
+  let &backupdir = s:data_home . 'backup//'
+
+  if !isdirectory(&undodir) | call mkdir(&undodir, 'p') | endif
+  if !isdirectory(&directory) | call mkdir(&directory, 'p') | endif
+  if !isdirectory(&backupdir) | call mkdir(&backupdir, 'p') | endif
+endif
+
+" Remove swapfiles based on if the file is modified or not. This allows for
+" swapfiles to be used for recovery if the file is modified, but not for files
+" that are not modified.
+augroup release_swapfiles
+  autocmd!
+  autocmd BufWritePost,BufReadPost,BufLeave *
+        \ if isdirectory(expand('<amatch>:h')) |
+        \   let &swapfile = &modified |
+        \ endif
+augroup END
+
+" Most likely sane indentation settings for programming languages. This is not
+" an exhaustive list, but it covers some of the most common languages.
+set tabstop=4       " Number of spaces that a <Tab> in the file counts for
+set shiftwidth=4    " Number of spaces to use for each step of (auto)indent
+set softtabstop=4   " Number of spaces that a <Tab> counts for while performing editing operations, like inserting a <Tab> or using <BS>
+set expandtab       " Use spaces instead of tabs
+
+" Disable arrow keys in all modes (insert, normal, visual, command-line)
+map <Left> <Nop>
+map <Right> <Nop>
+map <Up> <Nop>
+map <Down> <Nop>
+
+" Highlight tabs as > followed by a space,
+" trailing spaces as -,
+" non-breaking spaces as +,
+" and extends and precedes characters as > and < respectively.
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+
+" Enable breakindent if it is supported by the version of Vim being used. This
+" allows for wrapped lines to be indented to the same level as the original
+" line, which can improve readability when working with long lines of code or
+" text.
+if exists('+breakindent')
+  set breakindent
+endif
+
+" Navigate wrapped lines with j and k,
+" Only enabled if &wrap is on (which is the default)
+" and the count is zero.
+"
+" Examples:
+"
+" - j moves down one screen line, and k moves up one screen line
+" - 2j moves down two actual lines, and 2k moves up two actual lines
+nnoremap <expr> j (&wrap && v:count == 0) ? 'gj' : 'j'
+nnoremap <expr> k (&wrap && v:count == 0) ? 'gk' : 'k'
+
+" Map Y to y$ to make it consistent with D and C, which operate on the rest of
+" the line.
+nnoremap Y y$
+
+" Yank and paste to and from the system clipboard using the * register
+noremap gy "*y
+noremap gY "*y$
+noremap gp "*p
+noremap gP "*P
+
+" Set default commentstring to use # for comments, which is common in many
+" programming languages and configuration files.
+set commentstring=#\ %s
