@@ -118,6 +118,20 @@ _arguments "${_arguments_options[@]}" : \
 '::reference -- Position number or ID prefix:_default' \
 && ret=0
 ;;
+(read)
+_arguments "${_arguments_options[@]}" : \
+'-d+[Override default database path]:DATABASE:_files' \
+'--database=[Override default database path]:DATABASE:_files' \
+'--format=[Output format\: text (default), json]:FORMAT:(text json)' \
+'-p+[Filter commands to a specific project]:PROJECT:_default' \
+'--project=[Filter commands to a specific project]:PROJECT:_default' \
+'-v[Show task IDs in output]' \
+'--verbose[Show task IDs in output]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'::reference -- Position number or ID prefix:_default' \
+&& ret=0
+;;
 (complete)
 _arguments "${_arguments_options[@]}" : \
 '-d+[Override default database path]:DATABASE:_files' \
@@ -162,6 +176,7 @@ _arguments "${_arguments_options[@]}" : \
 '-h[Print help]' \
 '--help[Print help]' \
 '::reference -- Position number or ID prefix:_default' \
+'::source -- Use "-" to read new description from stdin:_default' \
 && ret=0
 ;;
 (prio)
@@ -420,6 +435,10 @@ _arguments "${_arguments_options[@]}" : \
 _arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
+(read)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
 (complete)
 _arguments "${_arguments_options[@]}" : \
 && ret=0
@@ -513,6 +532,7 @@ _whatsnext_commands() {
 'add:Create a new task' \
 'list:List tasks in priority order' \
 'show:Display full details of a specific task' \
+'read:Display a task'\''s description with terminal formatting' \
 'complete:Mark a task as completed' \
 'restore:Restore a completed task to open status' \
 'edit:Modify an existing task'\''s description' \
@@ -565,6 +585,7 @@ _whatsnext__help_commands() {
 'add:Create a new task' \
 'list:List tasks in priority order' \
 'show:Display full details of a specific task' \
+'read:Display a task'\''s description with terminal formatting' \
 'complete:Mark a task as completed' \
 'restore:Restore a completed task to open status' \
 'edit:Modify an existing task'\''s description' \
@@ -679,6 +700,11 @@ _whatsnext__help__project__list_commands() {
 _whatsnext__help__project__unassign_commands() {
     local commands; commands=()
     _describe -t commands 'whatsnext help project unassign commands' commands "$@"
+}
+(( $+functions[_whatsnext__help__read_commands] )) ||
+_whatsnext__help__read_commands() {
+    local commands; commands=()
+    _describe -t commands 'whatsnext help read commands' commands "$@"
 }
 (( $+functions[_whatsnext__help__restore_commands] )) ||
 _whatsnext__help__restore_commands() {
@@ -798,6 +824,11 @@ _whatsnext__project__list_commands() {
 _whatsnext__project__unassign_commands() {
     local commands; commands=()
     _describe -t commands 'whatsnext project unassign commands' commands "$@"
+}
+(( $+functions[_whatsnext__read_commands] )) ||
+_whatsnext__read_commands() {
+    local commands; commands=()
+    _describe -t commands 'whatsnext read commands' commands "$@"
 }
 (( $+functions[_whatsnext__restore_commands] )) ||
 _whatsnext__restore_commands() {
