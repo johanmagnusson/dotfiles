@@ -39,3 +39,4 @@ behind = ""
 [character]
 success_symbol = "[%](fg:bright-black)"
 error_symbol = "[%](fg:red)"
+vimcmd_symbol = "[%](fg:bright-green)"
