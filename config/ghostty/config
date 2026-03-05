@@ -1,0 +1,4 @@
+font-family = JetBrainsMonoNL Nerd Font
+macos-titlebar-proxy-icon = hidden
+theme = light:Builtin Light,dark:Builtin Dark
+keybind = shift+enter=text:\x1b\r
