@@ -118,20 +118,6 @@ _arguments "${_arguments_options[@]}" : \
 '::reference -- Position number or ID prefix:_default' \
 && ret=0
 ;;
-(read)
-_arguments "${_arguments_options[@]}" : \
-'-d+[Override default database path]:DATABASE:_files' \
-'--database=[Override default database path]:DATABASE:_files' \
-'--format=[Output format\: text (default), json]:FORMAT:(text json)' \
-'-p+[Filter commands to a specific project]:PROJECT:_default' \
-'--project=[Filter commands to a specific project]:PROJECT:_default' \
-'-v[Show task IDs in output]' \
-'--verbose[Show task IDs in output]' \
-'-h[Print help]' \
-'--help[Print help]' \
-'::reference -- Position number or ID prefix:_default' \
-&& ret=0
-;;
 (complete)
 _arguments "${_arguments_options[@]}" : \
 '-d+[Override default database path]:DATABASE:_files' \
@@ -389,6 +375,19 @@ esac
     ;;
 esac
 ;;
+(interactive)
+_arguments "${_arguments_options[@]}" : \
+'-d+[Override default database path]:DATABASE:_files' \
+'--database=[Override default database path]:DATABASE:_files' \
+'--format=[Output format\: text (default), json]:FORMAT:(text json)' \
+'-p+[Filter commands to a specific project]:PROJECT:_default' \
+'--project=[Filter commands to a specific project]:PROJECT:_default' \
+'-v[Show task IDs in output]' \
+'--verbose[Show task IDs in output]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
 (completions)
 _arguments "${_arguments_options[@]}" : \
 '-d+[Override default database path]:DATABASE:_files' \
@@ -432,10 +431,6 @@ _arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
 (show)
-_arguments "${_arguments_options[@]}" : \
-&& ret=0
-;;
-(read)
 _arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
@@ -507,6 +502,10 @@ _arguments "${_arguments_options[@]}" : \
     ;;
 esac
 ;;
+(interactive)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
 (completions)
 _arguments "${_arguments_options[@]}" : \
 && ret=0
@@ -532,7 +531,6 @@ _whatsnext_commands() {
 'add:Create a new task' \
 'list:List tasks in priority order' \
 'show:Display full details of a specific task' \
-'read:Display a task'\''s description with terminal formatting' \
 'complete:Mark a task as completed' \
 'restore:Restore a completed task to open status' \
 'edit:Modify an existing task'\''s description' \
@@ -542,6 +540,7 @@ _whatsnext_commands() {
 'dump:Export all tasks as JSON' \
 'import:Import tasks from a JSON file' \
 'project:Manage projects' \
+'interactive:Interactive terminal UI for task management' \
 'completions:Generate shell completion scripts' \
 'help:Print this message or the help of the given subcommand(s)' \
     )
@@ -585,7 +584,6 @@ _whatsnext__help_commands() {
 'add:Create a new task' \
 'list:List tasks in priority order' \
 'show:Display full details of a specific task' \
-'read:Display a task'\''s description with terminal formatting' \
 'complete:Mark a task as completed' \
 'restore:Restore a completed task to open status' \
 'edit:Modify an existing task'\''s description' \
@@ -595,6 +593,7 @@ _whatsnext__help_commands() {
 'dump:Export all tasks as JSON' \
 'import:Import tasks from a JSON file' \
 'project:Manage projects' \
+'interactive:Interactive terminal UI for task management' \
 'completions:Generate shell completion scripts' \
 'help:Print this message or the help of the given subcommand(s)' \
     )
@@ -644,6 +643,11 @@ _whatsnext__help__import_commands() {
 _whatsnext__help__init_commands() {
     local commands; commands=()
     _describe -t commands 'whatsnext help init commands' commands "$@"
+}
+(( $+functions[_whatsnext__help__interactive_commands] )) ||
+_whatsnext__help__interactive_commands() {
+    local commands; commands=()
+    _describe -t commands 'whatsnext help interactive commands' commands "$@"
 }
 (( $+functions[_whatsnext__help__list_commands] )) ||
 _whatsnext__help__list_commands() {
@@ -701,11 +705,6 @@ _whatsnext__help__project__unassign_commands() {
     local commands; commands=()
     _describe -t commands 'whatsnext help project unassign commands' commands "$@"
 }
-(( $+functions[_whatsnext__help__read_commands] )) ||
-_whatsnext__help__read_commands() {
-    local commands; commands=()
-    _describe -t commands 'whatsnext help read commands' commands "$@"
-}
 (( $+functions[_whatsnext__help__restore_commands] )) ||
 _whatsnext__help__restore_commands() {
     local commands; commands=()
@@ -725,6 +724,11 @@ _whatsnext__import_commands() {
 _whatsnext__init_commands() {
     local commands; commands=()
     _describe -t commands 'whatsnext init commands' commands "$@"
+}
+(( $+functions[_whatsnext__interactive_commands] )) ||
+_whatsnext__interactive_commands() {
+    local commands; commands=()
+    _describe -t commands 'whatsnext interactive commands' commands "$@"
 }
 (( $+functions[_whatsnext__list_commands] )) ||
 _whatsnext__list_commands() {
@@ -824,11 +828,6 @@ _whatsnext__project__list_commands() {
 _whatsnext__project__unassign_commands() {
     local commands; commands=()
     _describe -t commands 'whatsnext project unassign commands' commands "$@"
-}
-(( $+functions[_whatsnext__read_commands] )) ||
-_whatsnext__read_commands() {
-    local commands; commands=()
-    _describe -t commands 'whatsnext read commands' commands "$@"
 }
 (( $+functions[_whatsnext__restore_commands] )) ||
 _whatsnext__restore_commands() {
