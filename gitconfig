@@ -30,3 +30,7 @@
 	default = simple
 [commit]
 	verbose = true
+[includeIf "gitdir:~/src/github.com/johanmagnusson/"]
+	path = ~/.gitconfig-personal
+[includeIf "gitdir:~/src/github.com/mentimeter/"]
+	path = ~/.gitconfig-work
