@@ -1,2 +1,2 @@
-DOTFILES_DIRS="$HOME/.dotfiles $HOME/Projects/claudette"
+DOTFILES_DIRS="$HOME/src/github.com/johanmagnusson/dotfiles $HOME/src/github.com/johanmagnusson/claudette"
 EXCLUDES="zsh README.md ./CLAUDE.md"
