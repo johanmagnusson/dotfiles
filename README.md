@@ -24,8 +24,8 @@ Clone repo:
 
 The `rcrc` file needs to be bootstrapped manually, as it controls behavior of the `rcm` commands:
 
-```
-ln -s ~/src/github.com/johanmagnusson/dotfiles/rcrc ~/.rcrc
+```shell
+% ln -s ~/src/github.com/johanmagnusson/dotfiles/rcrc ~/.rcrc
 ```
 
 Enable the rc files. For all files, use:
