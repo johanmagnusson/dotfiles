@@ -1,25 +1,19 @@
 # johanmagnusson/dotfiles
 
-Managed with [rcm](https://github.com/thoughtbot/rcm).
+Managed with [rcm](https://github.com/thoughtbot/rcm). Requires [Homebrew](https://brew.sh/) for macOS.
 
 ## Usage
-
-Install `rcm` if not already available. For macOS:
-
-```shell
-% brew install rcm
-```
-
-Install [starship](https://starship.rs/) for prompt managment.
-
-```shell
-% brew install starship
-```
 
 Clone repo:
 
 ```shell
 % git clone git@github.com:johanmagnusson/dotfiles.git ~/src/github.com/johanmagnusson/dotfiles
+```
+
+Install dependencies:
+
+```shell
+% brew bundle
 ```
 
 The `rcrc` file needs to be bootstrapped manually, as it controls behavior of the `rcm` commands:
