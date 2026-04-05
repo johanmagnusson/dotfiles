@@ -1,5 +1,5 @@
 # Identify where this file is located
-ZCONFIG="$HOME/.dotfiles/zsh"
+ZCONFIG="$HOME/src/github.com/johanmagnusson/dotfiles/zsh"
 
 # Use emacs keybindings (Ctrl+A, Ctrl+E, etc.)
 # Must be explicit since EDITOR=vim triggers vi mode
