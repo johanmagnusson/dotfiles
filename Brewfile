@@ -2,7 +2,7 @@
 brew "rcm"
 brew "starship"
 brew "nodenv"
-brew "rbenv"
+brew "rv"
 brew "git"
 
 # Convenient
