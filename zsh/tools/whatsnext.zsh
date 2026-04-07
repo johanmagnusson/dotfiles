@@ -388,6 +388,19 @@ _arguments "${_arguments_options[@]}" : \
 '--help[Print help]' \
 && ret=0
 ;;
+(mcp)
+_arguments "${_arguments_options[@]}" : \
+'-d+[Override default database path]:DATABASE:_files' \
+'--database=[Override default database path]:DATABASE:_files' \
+'--format=[Output format\: text (default), json]:FORMAT:(text json)' \
+'-p+[Filter commands to a specific project]:PROJECT:_default' \
+'--project=[Filter commands to a specific project]:PROJECT:_default' \
+'-v[Show task IDs in output]' \
+'--verbose[Show task IDs in output]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
 (completions)
 _arguments "${_arguments_options[@]}" : \
 '-d+[Override default database path]:DATABASE:_files' \
@@ -506,6 +519,10 @@ esac
 _arguments "${_arguments_options[@]}" : \
 && ret=0
 ;;
+(mcp)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
 (completions)
 _arguments "${_arguments_options[@]}" : \
 && ret=0
@@ -541,6 +558,7 @@ _whatsnext_commands() {
 'import:Import tasks from a JSON file' \
 'project:Manage projects' \
 'interactive:Interactive terminal UI for task management' \
+'mcp:Start MCP server (stdio transport)' \
 'completions:Generate shell completion scripts' \
 'help:Print this message or the help of the given subcommand(s)' \
     )
@@ -594,6 +612,7 @@ _whatsnext__help_commands() {
 'import:Import tasks from a JSON file' \
 'project:Manage projects' \
 'interactive:Interactive terminal UI for task management' \
+'mcp:Start MCP server (stdio transport)' \
 'completions:Generate shell completion scripts' \
 'help:Print this message or the help of the given subcommand(s)' \
     )
@@ -653,6 +672,11 @@ _whatsnext__help__interactive_commands() {
 _whatsnext__help__list_commands() {
     local commands; commands=()
     _describe -t commands 'whatsnext help list commands' commands "$@"
+}
+(( $+functions[_whatsnext__help__mcp_commands] )) ||
+_whatsnext__help__mcp_commands() {
+    local commands; commands=()
+    _describe -t commands 'whatsnext help mcp commands' commands "$@"
 }
 (( $+functions[_whatsnext__help__move_commands] )) ||
 _whatsnext__help__move_commands() {
@@ -734,6 +758,11 @@ _whatsnext__interactive_commands() {
 _whatsnext__list_commands() {
     local commands; commands=()
     _describe -t commands 'whatsnext list commands' commands "$@"
+}
+(( $+functions[_whatsnext__mcp_commands] )) ||
+_whatsnext__mcp_commands() {
+    local commands; commands=()
+    _describe -t commands 'whatsnext mcp commands' commands "$@"
 }
 (( $+functions[_whatsnext__move_commands] )) ||
 _whatsnext__move_commands() {
