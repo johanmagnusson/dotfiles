@@ -12,15 +12,12 @@ bindkey '\eOH'  beginning-of-line                  # Home (alt)
 bindkey '\e[F'  end-of-line                        # End
 bindkey '\eOF'  end-of-line                        # End (alt)
 
-# Core components
+# Core interactive components
 source "$ZCONFIG/aliases.zsh"
 source "$ZCONFIG/completions.zsh"
 source "$ZCONFIG/history.zsh"
 
-# Load tool-specific configs
+# Interactive tool-specific configs (prompts, completions)
 for config in $ZCONFIG/tools/*.zsh(N); do
   source "$config"
 done
-
-# Path updates, overriding any tool specific config
-export PATH="$PATH:$HOME/.local/bin"

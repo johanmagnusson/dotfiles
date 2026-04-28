@@ -1,5 +1,4 @@
 eval "$(rv shell init zsh)"
-eval "$(rv shell completions zsh)"
 
 # Enable local binstubs for `.git/safe` via preexec hook so it re-prepends
 # after rv rebuilds $PATH on every command.

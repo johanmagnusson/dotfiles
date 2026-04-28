@@ -17,6 +17,3 @@ _menti_yargs_completions()
 }
 compdef _menti_yargs_completions menti
 ###-end-menti-completions-###
-
-# from `menti localsecrets`
-source <(menti activate)
