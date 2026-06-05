@@ -1,3 +1,6 @@
+# Keep PATH free of duplicates; the first occurrence of a dir always wins
+typeset -gU PATH path
+
 ZCONFIG_ENV="$HOME/src/github.com/johanmagnusson/dotfiles/zsh/env"
 
 # Tool/env configs that should be available to non-interactive shells too
@@ -15,3 +18,7 @@ export LSCOLORS='Axhxxxxxxxxxxxxxxxxx'
 
 export EDITOR=vim
 export VISUAL=vim
+
+# Saved so zprofile can re-assert this order after /etc/zprofile's path_helper
+# reshuffles PATH for login shells (puts /usr/bin etc. ahead of Homebrew).
+typeset -g _PATH_FROM_ZSHENV="$PATH"
