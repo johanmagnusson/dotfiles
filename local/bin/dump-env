@@ -1,0 +1,162 @@
+#!/usr/bin/env zsh
+#
+# dump-env - capture the login-shell environment for a working directory and
+# write the important variables to an env file.
+#
+# GUI apps launched outside a terminal (Spotlight, Dock, app launchers, ...) do
+# not run macOS path_helper or source the zsh login files, so they start with a
+# bare PATH and none of the tools wired up in this repo (brew, postgres, rv,
+# nodenv, pnpm, sdkman, cargo, deno, ~/.local/bin) are available. Many such apps
+# can load variables from an env file; this script generates that file.
+#
+# Usage:
+#   dump-env [DIR] [OUTFILE]   # default DIR=$PWD, OUTFILE=DIR/.env.dump
+#   dump-env --print [DIR]     # write to stdout instead of a file
+#   dump-env -h | --help
+#
+# The environment is captured by running a login shell *in DIR*, so anything
+# resolved per-directory (version managers, git-safe binstubs) is reflected.
+
+emulate -L zsh
+set -euo pipefail
+
+# Variables to export. Exact names and PREFIX_* glob patterns are both honored.
+# Defined here so it is easy to tune.
+local -a ALLOW=(
+  PATH
+  LANG LC_ALL
+  EDITOR VISUAL
+  MANWIDTH MANPATH INFOPATH
+  XDG_CONFIG_HOME
+  'HOMEBREW_*'
+  'NODENV_*' 'RBENV_*' 'RV_*'
+  'CARGO_*' 'DENO_*'
+  GEM_HOME GEM_PATH
+  PNPM_HOME
+  SDKMAN_DIR
+)
+
+usage() {
+  print -r -- 'dump-env - capture the login-shell environment for a working directory.
+
+GUI apps launched outside a terminal start with a bare PATH and cannot find the
+tools this repo wires up (brew, postgres, rv, nodenv, pnpm, sdkman, cargo, deno).
+Many can load an env file; this generates one with PATH + key tool variables.
+
+Usage:
+  dump-env [DIR] [OUTFILE]   # default DIR=$PWD, OUTFILE=DIR/.env.dump
+  dump-env --print [DIR]     # write to stdout instead of a file
+  dump-env -h | --help
+
+The environment is captured by running a clean login shell in DIR, so per-project
+resolution (version managers, git-safe binstubs) is reflected.'
+}
+
+# --- parse args ------------------------------------------------------------
+local to_stdout=0
+local -a positional=()
+local arg
+for arg in "$@"; do
+  case "$arg" in
+    -h|--help) usage; return 0 ;;
+    --print)   to_stdout=1 ;;
+    --)        ;;
+    -*)        print -u2 "dump-env: unknown option: $arg"; return 2 ;;
+    *)         positional+=("$arg") ;;
+  esac
+done
+
+local target_dir="${positional[1]:-$PWD}"
+if [[ ! -d "$target_dir" ]]; then
+  print -u2 "dump-env: not a directory: $target_dir"
+  return 1
+fi
+# Absolute path so the git-safe check and messages are unambiguous.
+target_dir="${target_dir:A}"
+
+local out_file="${positional[2]:-$target_dir/.env.dump}"
+
+# --- capture login-shell env in the target dir -----------------------------
+# Run a login shell (-l: sources zshenv -> the whole zsh/env/* layer, plus
+# zprofile for PATH order; not zshrc, so no interactive output leaks). env -0
+# keeps values intact regardless of embedded whitespace.
+#
+# The shell is launched from a clean environment (env -i) so that PATH entries
+# from the *calling* shell (a venv, an editor's injected plugin bins, etc.) do
+# not leak into the dump -- the file must be reproducible and match what a
+# terminal-less GUI login would build. We still seed the macOS default PATH so
+# the init scripts (nodenv/sdkman/menti) can find coreutils before path_helper
+# runs, exactly as a fresh OS-spawned login shell would have it.
+local raw
+raw="$(cd "$target_dir" && exec env -i \
+  HOME="$HOME" USER="$USER" LOGNAME="${LOGNAME:-$USER}" \
+  TERM="${TERM:-xterm}" SHELL="${SHELL:-/bin/zsh}" \
+  PATH="/usr/bin:/bin:/usr/sbin:/sbin" \
+  /bin/zsh -l -c 'env -0' 2>/dev/null)" || {
+  print -u2 "dump-env: failed to capture environment in $target_dir"
+  return 1
+}
+
+# --- filter to the allowlist -----------------------------------------------
+local -A captured=()
+local kv name
+for kv in "${(0)raw}"; do
+  name="${kv%%=*}"
+  captured[$name]="${kv#*=}"
+done
+
+is_allowed() {
+  local n="$1" pat
+  for pat in "${ALLOW[@]}"; do
+    [[ "$n" == ${~pat} ]] && return 0
+  done
+  return 1
+}
+
+# Sanitize PATH: drop non-absolute entries (e.g. the relative .git/safe/../../bin
+# that the git-safe setup injects, meaningless in a GUI's working dir) and dedup
+# while preserving order.
+if [[ -n "${captured[PATH]:-}" ]]; then
+  local -a parts clean=()
+  parts=("${(s/:/)captured[PATH]}")
+  local p
+  for p in $parts; do
+    [[ "$p" == /* ]] && clean+=("$p")
+  done
+  typeset -U clean
+  captured[PATH]="${(j/:/)clean}"
+fi
+
+# Honor per-project git-safe binstubs: rv.zsh only adds <dir>/bin to PATH via an
+# interactive preexec hook, which a non-interactive login shell never fires.
+# Re-add it here as an absolute path so it is usable from the GUI.
+if [[ -d "$target_dir/.git/safe" && -d "$target_dir/bin" && -n "${captured[PATH]:-}" ]]; then
+  captured[PATH]="$target_dir/bin:${captured[PATH]}"
+fi
+
+# --- emit ------------------------------------------------------------------
+# Plain KEY=VALUE lines (no quoting): the allowlisted values are path-like with
+# no spaces or quotes, which is the most broadly compatible dotenv form.
+emit() {
+  local n
+  for n in ${(ok)captured}; do
+    is_allowed "$n" || continue
+    print -r -- "$n=${captured[$n]}"
+  done
+}
+
+local count
+count="$(emit | grep -c '^' || true)"
+
+if (( to_stdout )); then
+  emit
+  return 0
+fi
+
+# Atomic write: temp file in the same dir, then mv.
+local tmp="${out_file}.tmp.$$"
+emit > "$tmp"
+mv -f "$tmp" "$out_file"
+
+print -r -- "dump-env: wrote $count variables to $out_file"
+print -r -- "          point your GUI tool's env-file setting at it; gitignore '.env*' in the project."
